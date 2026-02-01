@@ -1,0 +1,32 @@
+{
+    "realm": "taskflow",
+    "enabled": true,
+    "registrationAllowed": true,
+    "loginWithEmailAllowed": true,
+    "duplicateEmailsAllowed": false,
+    "clients": [
+        {
+            "clientId": "taskflow-frontend",
+            "enabled": true,
+            "publicClient": true,
+            "standardFlowEnabled": true,
+            "directAccessGrantsEnabled": false,
+            "redirectUris": [
+                "http://localhost:4200/*"
+            ],
+            "webOrigins": [
+                "http://localhost:4200"
+            ]
+        }
+    ],
+    "roles": {
+        "realm": [
+            {
+                "name": "USER"
+            },
+            {
+                "name": "ADMIN"
+            }
+        ]
+    }
+}
