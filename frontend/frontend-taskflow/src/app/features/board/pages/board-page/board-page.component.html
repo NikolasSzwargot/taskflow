@@ -1,0 +1,29 @@
+<mat-card style="margin: 16px;">
+  <mat-card-title>Board</mat-card-title>
+
+  <div style="margin-top: 12px; display:flex; gap: 8px;">
+    <button mat-stroked-button (click)="logout()">Logout</button>
+  </div>
+
+  @if (loading) {
+    <div style="margin-top: 16px;">
+      <mat-spinner diameter="28"></mat-spinner>
+    </div>
+  } @else {
+    <div>
+      <h3>Statuses</h3>
+      @for (s of statuses; track s.id) {
+        <div>
+          {{ s.position }}. {{ s.name }} ({{ s.id }})
+        </div>
+      }
+
+      <h3 style="margin-top: 16px;">Tasks</h3>
+      @for (t of tasks; track t.id) {
+        <div>
+          [{{ t.statusId }}] {{ t.position }}. {{ t.title }}
+        </div>
+      }
+    </div>
+  }
+</mat-card>

@@ -18,9 +18,10 @@ public class CreateTaskService implements CreateTaskUseCase {
     }
 
     @Override
-    public Task create(String title, String description, UUID statusId, int position) {
+    public Task create(String title, String description, UUID statusId) {
         Instant now = Instant.now();
-        Task task = new Task(UUID.randomUUID(), title, description, statusId, position, now, now);
+        int nextPosition = taskRepositoryPort.findMaxPositionByStatusId(statusId) + 1;
+        Task task = new Task(UUID.randomUUID(), title, description, statusId, nextPosition, now, now);
         return  taskRepositoryPort.save(task);
     }
 }

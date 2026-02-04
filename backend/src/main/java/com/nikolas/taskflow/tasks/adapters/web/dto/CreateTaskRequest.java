@@ -5,6 +5,5 @@ import java.util.UUID;
 public record CreateTaskRequest(
         String title,
         String description,
-        UUID statusId,
-        int position
+        UUID statusId
 ) {}

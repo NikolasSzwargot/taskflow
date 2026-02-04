@@ -6,12 +6,14 @@ import com.nikolas.taskflow.tasks.application.ports.in.ChangeTaskStatusUseCase;
 import com.nikolas.taskflow.tasks.application.ports.in.CreateTaskUseCase;
 import com.nikolas.taskflow.tasks.application.ports.in.ListTasksUseCase;
 import com.nikolas.taskflow.tasks.domain.Task;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
+@Tag(name = "Tasks")
 @RestController
 @RequestMapping("/api/tasks")
 public class TasksController {
@@ -33,7 +35,7 @@ public class TasksController {
 
     @PostMapping
     public Task create(@RequestBody CreateTaskRequest req) {
-        return createTaskUseCase.create(req.title(), req.description(), req.statusId(), req.position());
+        return createTaskUseCase.create(req.title(), req.description(), req.statusId());
     }
 
     @PatchMapping("/{id}/status")

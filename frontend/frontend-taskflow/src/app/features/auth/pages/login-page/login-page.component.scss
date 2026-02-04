@@ -1,0 +1,18 @@
+.page {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+}
+
+.card {
+    width: 100%;
+    max-width: 420px;
+    padding: 16px;
+}
+
+.form {
+    display: grid;
+    gap: 12px;
+    margin-top: 16px;
+}

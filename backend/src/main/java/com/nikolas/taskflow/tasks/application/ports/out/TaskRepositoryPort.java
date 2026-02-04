@@ -12,5 +12,9 @@ public interface TaskRepositoryPort {
     List<Task> findAllOrdered();
     Task save (Task task);
     Optional<Task> findById(UUID id);
+    
     void updateStatusAndPosition(UUID taskId, UUID statusId, int position);
+
+    int findMaxPositionByStatusId(UUID statusId);
+
 }
