@@ -1,0 +1,76 @@
+.board {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+}
+
+.col {
+    min-width: 280px;
+    max-width: 320px;
+    background: #fafafa;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    padding: 10px;
+    flex: 0 0 auto;
+}
+
+.col-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.col-title {
+    font-weight: 600;
+}
+
+.col-count {
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.06);
+}
+
+.col-body {
+    display: grid;
+    gap: 10px;
+}
+
+.card {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    padding: 10px;
+}
+
+.card-title {
+    font-weight: 600;
+}
+
+.card-desc {
+    margin-top: 6px;
+    font-size: 13px;
+    opacity: 0.8;
+}
+
+.empty {
+    font-size: 13px;
+    opacity: 0.6;
+    padding: 10px 6px;
+}
+
+.col-body.cdk-drop-list-dragging .card:not(.cdk-drag-placeholder) {
+    transition: transform 150ms;
+}
+
+.cdk-drag-preview {
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.cdk-drag-placeholder {
+    opacity: 0.3;
+}

@@ -40,7 +40,7 @@ public class TasksController {
 
     @PatchMapping("/{id}/status")
     public ResponseEntity<Void> changeStatus(@PathVariable("id") UUID id, @RequestBody ChangeStatusRequest req) {
-        changeTaskStatusUseCase.change(id, req.statusId(), req.position());
+        changeTaskStatusUseCase.change(id, req.statusId());
         return ResponseEntity.noContent().build();
     }
 }

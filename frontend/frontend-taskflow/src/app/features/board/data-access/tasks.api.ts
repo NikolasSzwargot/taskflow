@@ -10,4 +10,10 @@ export class TasksApi {
     getTasks() {
         return this.http.get<TaskDto[]>(`${environment.apiBaseUrl}/api/tasks`);
     }
+
+    updateTaskStatus(taskId: string, statusId: string) {
+        return this.http.patch(`${environment.apiBaseUrl}/api/tasks/${taskId}/status`, {
+            statusId,
+        });
+    }
 }
