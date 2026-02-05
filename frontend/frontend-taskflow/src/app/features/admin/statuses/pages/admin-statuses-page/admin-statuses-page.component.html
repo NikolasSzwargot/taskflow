@@ -1,0 +1,43 @@
+<mat-card style="margin: 16px;">
+  <mat-card-title>Admin · Statuses</mat-card-title>
+
+  <div class="add-row">
+    <mat-form-field class="add-input">
+      <mat-label>New status name</mat-label>
+      <input matInput [(ngModel)]="newName" />
+    </mat-form-field>
+
+    <button mat-flat-button color="primary" (click)="add()">Add</button>
+  </div>
+
+  @if (loading) {
+    <div style="margin-top: 12px;">Loading…</div>
+  } @else {
+    <div class="list">
+      @for (s of statuses; track s.id; let i = $index) {
+        <div class="row">
+          <div class="pos">{{ s.position }}</div>
+
+          <mat-form-field class="name">
+            <mat-label>Name</mat-label>
+            <input matInput [value]="s.name" (blur)="rename(s, $any($event.target).value)" />
+          </mat-form-field>
+
+          <div class="actions">
+            <button mat-icon-button (click)="moveUp(i)" [disabled]="i === 0" aria-label="Up">
+              <mat-icon>arrow_upward</mat-icon>
+            </button>
+
+            <button mat-icon-button (click)="moveDown(i)" [disabled]="i === statuses.length - 1" aria-label="Down">
+              <mat-icon>arrow_downward</mat-icon>
+            </button>
+
+            <button mat-icon-button (click)="remove(s)" aria-label="Delete">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</mat-card>
