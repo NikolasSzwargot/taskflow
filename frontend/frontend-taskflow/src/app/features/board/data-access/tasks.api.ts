@@ -16,4 +16,16 @@ export class TasksApi {
             statusId,
         });
     }
+
+    createTask(input: {
+        title: string;
+        description?: string;
+        statusId: string;
+    }) {
+        return this.http.post<TaskDto>(
+            `${environment.apiBaseUrl}/api/tasks`,
+            input
+        );
+    }
+
 }

@@ -7,6 +7,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { AddTaskDialogComponent } from '../../components/add-task-dialog/add-task-dialog.component';
 
 
 import { AuthService } from '../../../../core/auth/auth.service';
@@ -22,7 +24,8 @@ import { StatusDto, TaskDto } from '../../models/board.models';
     MatCardModule,
     MatProgressSpinnerModule,
     DragDropModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatDialogModule
   ],
   templateUrl: './board-page.component.html',
   styleUrl: './board-page.component.scss',
@@ -40,7 +43,8 @@ export class BoardPageComponent implements OnInit {
     private statusesApi: StatusesApi,
     private tasksApi: TasksApi,
     private cdr: ChangeDetectorRef,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -128,6 +132,26 @@ export class BoardPageComponent implements OnInit {
   getList(statusId: string): TaskDto[] {
     return this.tasksByStatus[statusId] ?? [];
   }
+
+  openAddTask(statusId: string) {
+    const ref = this.dialog.open(AddTaskDialogComponent, {
+      width: '400px',
+      data: { statusId }
+    });
+
+    ref.afterClosed().subscribe(result => {
+      if (!result) return;
+
+      this.tasksApi.createTask({
+        title: result.title,
+        description: result.description,
+        statusId
+      }).subscribe(task => {
+        this.tasksByStatus[statusId].push(task);
+      });
+    });
+  }
+
 
 
   logout() {

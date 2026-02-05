@@ -15,6 +15,9 @@
         <div class="col">
           <div class="col-header">
             <div class="col-title">{{ s.name }}</div>
+            <button mat-icon-button (click)="openAddTask(s.id)">
+              +
+            </button>
             <div class="col-count">
               {{ getTasksForStatus(s.id).length }}
             </div>
