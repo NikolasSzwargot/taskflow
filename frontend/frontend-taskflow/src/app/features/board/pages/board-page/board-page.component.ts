@@ -6,9 +6,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AddTaskDialogComponent } from '../../components/add-task-dialog/add-task-dialog.component';
+import { ToastrService } from 'ngx-toastr';
 
 
 import { AuthService } from '../../../../core/auth/auth.service';
@@ -24,7 +24,6 @@ import { StatusDto, TaskDto } from '../../models/board.models';
     MatCardModule,
     MatProgressSpinnerModule,
     DragDropModule,
-    MatSnackBarModule,
     MatDialogModule
   ],
   templateUrl: './board-page.component.html',
@@ -43,7 +42,7 @@ export class BoardPageComponent implements OnInit {
     private statusesApi: StatusesApi,
     private tasksApi: TasksApi,
     private cdr: ChangeDetectorRef,
-    private snackBar: MatSnackBar,
+    private toastr: ToastrService,
     private dialog: MatDialog
   ) { }
 
@@ -123,7 +122,7 @@ export class BoardPageComponent implements OnInit {
       next: () => { },
       error: () => {
         this.tasksByStatus = prev;
-        this.snackBar.open('Failed to move task', 'Close', { duration: 2500 });
+        this.toastr.error('Failed to move task');
       },
     });
   }
@@ -146,8 +145,18 @@ export class BoardPageComponent implements OnInit {
         title: result.title,
         description: result.description,
         statusId
-      }).subscribe(task => {
-        this.tasksByStatus[statusId].push(task);
+      }).subscribe({
+        next: task => {
+          this.tasks.push(task);
+          this.tasksByStatus[statusId].push(task);
+
+          this.cdr.detectChanges();
+
+          this.toastr.success('Task created');
+        },
+        error: () => {
+          this.toastr.error('Failed to create task');
+        }
       });
     });
   }

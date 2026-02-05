@@ -5,9 +5,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+
 
 import { AuthService } from '../../../../core/auth/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login-page',
@@ -18,7 +19,6 @@ import { AuthService } from '../../../../core/auth/auth.service';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatSnackBarModule,
   ],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.scss',
@@ -31,7 +31,7 @@ export class LoginPageComponent {
     private fb: FormBuilder,
     private auth: AuthService,
     private router: Router,
-    private snack: MatSnackBar
+    private toastr: ToastrService
   ) {
     this.form = this.fb.nonNullable.group({
       username: ['', [Validators.required]],
@@ -52,7 +52,7 @@ export class LoginPageComponent {
       },
       error: () => {
         this.loading = false;
-        this.snack.open('Invalid credentials', 'Close', { duration: 2500 });
+        this.toastr.error('Invalid credentials');
       },
     });
   }
