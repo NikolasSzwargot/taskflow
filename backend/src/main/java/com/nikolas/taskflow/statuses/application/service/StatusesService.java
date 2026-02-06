@@ -3,8 +3,11 @@ package com.nikolas.taskflow.statuses.application.service;
 import com.nikolas.taskflow.statuses.application.ports.in.*;
 import com.nikolas.taskflow.statuses.application.ports.out.StatusRepositoryPort;
 import com.nikolas.taskflow.statuses.domain.Status;
+import com.nikolas.taskflow.tasks.application.ports.out.TaskRepositoryPort;
 import jakarta.transaction.Transactional;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
 import java.util.List;
@@ -20,9 +23,11 @@ public class StatusesService implements
         SwapStatusesUseCase{
 
     private final StatusRepositoryPort statusRepositoryPort;
+    private final TaskRepositoryPort taskRepositoryPort;
 
-    public StatusesService(StatusRepositoryPort statusRepositoryPort) {
+    public StatusesService(StatusRepositoryPort statusRepositoryPort, TaskRepositoryPort taskRepositoryPort) {
         this.statusRepositoryPort = statusRepositoryPort;
+        this.taskRepositoryPort = taskRepositoryPort;
     }
 
     @Override
@@ -53,6 +58,13 @@ public class StatusesService implements
 
     @Override
     public void delete(String id) {
+        long count = taskRepositoryPort.countByStatusId(id);
+        if (count > 0) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Cannot delete status with tasks assigned"
+            );
+        }
         statusRepositoryPort.delete(id);
     }
 

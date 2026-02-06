@@ -17,4 +17,6 @@ public interface TaskRepositoryPort {
 
     int findMaxPositionByStatusId(UUID statusId);
 
+    long countByStatusId(String statusId);
+
 }

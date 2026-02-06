@@ -23,4 +23,6 @@ public interface TaskJpaRepository extends JpaRepository<TaskEntity, UUID> {
 
     @Query("select coalesce(max(t.position), 0) from TaskEntity t where t.statusId = :statusId")
     int findMaxPositionByStatusId(@Param("statusId") UUID statusId);
+
+    long countByStatusId(UUID statusId);
 }

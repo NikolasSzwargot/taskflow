@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { StatusDto } from '../../../../board/models/board.models';
 import { StatusesApi } from '../../../../board/data-access/statuses.api';
 import { FormsModule } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-admin-statuses-page',
@@ -64,11 +65,11 @@ export class AdminStatusesPageComponent implements OnInit {
         });
     }
 
-    rename(s: StatusDto, name: string) {
+    rename(status: StatusDto, name: string) {
         const trimmed = name.trim();
-        if (!trimmed || trimmed === s.name) return;
+        if (!trimmed || trimmed === status.name) return;
 
-        this.api.renameStatus(s.id, trimmed).subscribe({
+        this.api.renameStatus(status.id, trimmed).subscribe({
             next: () => {
                 this.toastr.success('Status updated');
                 this.reload();
@@ -77,13 +78,19 @@ export class AdminStatusesPageComponent implements OnInit {
         });
     }
 
-    remove(s: StatusDto) {
-        this.api.deleteStatus(s.id).subscribe({
+    remove(status: StatusDto) {
+        this.api.deleteStatus(status.id).subscribe({
             next: () => {
                 this.toastr.success('Status deleted');
                 this.reload();
             },
-            error: () => this.toastr.error('Failed to delete status'),
+            error: (error: HttpErrorResponse) => {
+                if (error.status === 409) {
+                    this.toastr.error('Cannot delete status with tasks assigned');
+                } else {
+                    this.toastr.error('Failed to delete status');
+                }
+            },
         });
     }
 

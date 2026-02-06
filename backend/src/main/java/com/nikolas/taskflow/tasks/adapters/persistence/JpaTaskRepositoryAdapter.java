@@ -57,6 +57,11 @@ public class JpaTaskRepositoryAdapter implements TaskRepositoryPort {
         return taskJpaRepository.findMaxPositionByStatusId(statusId);
     }
 
+    @Override
+    public long countByStatusId(String statusId) {
+        return taskJpaRepository.countByStatusId(UUID.fromString(statusId));
+    }
+
     private Task toDomain(TaskEntity e) {
         return new Task(
                 e.getId(),
